@@ -8,9 +8,10 @@ if TOKEN is None:
 
 BASE = "https://events.vex.com/api/v2"
 HEADERS = {"Authorization": f"Bearer {TOKEN}", "Accept": "application/json"}
-SKU = "RE-V5RC-25-3046"
+EVENT_ID = 63046
+DIVISION_ID = 1
 
-response = requests.get(f"{BASE}/events", headers = HEADERS, params = {"sku[]": SKU})
+response = requests.get(f"{BASE}/events/{EVENT_ID}/divisions/{DIVISION_ID}/matches", params = {"per_page": 250}, headers = HEADERS)
 print ("Status:", response.status_code)
 
 if (response.status_code != 200):
@@ -19,7 +20,7 @@ if (response.status_code != 200):
 
 data = response.json()
 os.makedirs("data", exist_ok = True)
-with open("data/events.json","w") as f:
+with open("data/matches.json","w") as f:
     json.dump(data, f, indent = 2)
 
-print ("Saved event data to data/events.json")
+print ("Saved match data to data/matches.json")
